@@ -391,6 +391,10 @@ def parse_report_sections(html):
     skip_headings = {
         "HOUSE OF REPRESENTATIVES", "R E P O R T", "CONTENTS",
         "DISSENTING VIEWS", "COMPARISON", "FY",
+        "MINORITY VIEWS", "ADDITIONAL VIEWS", "SUPPLEMENTAL VIEWS",
+        "BILL TOTALS", "COMMITTEE ON APPROPRIATIONS",
+        "U.S. GOVERNMENT PUBLISHING OFFICE", "WASHINGTON",
+        "COMMITTEE HEARINGS", "OFFICIAL REPORTERS",
     }
 
     # Major agency/department level keywords
