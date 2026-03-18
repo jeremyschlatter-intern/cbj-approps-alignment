@@ -632,6 +632,162 @@ def api_search():
     return jsonify({"query": query, "results": results[:50]})
 
 
+@app.route("/api/directives/<sub_id>/<chamber>")
+def api_directives(sub_id, chamber):
+    """Extract committee directives from a report."""
+    sub = next((s for s in SUBCOMMITTEES if s["id"] == sub_id), None)
+    if not sub:
+        return jsonify({"error": "Subcommittee not found"}), 404
+
+    report_info = sub.get(f"{chamber}_report")
+    if not report_info:
+        return jsonify({"error": "No report available", "directives": []}), 404
+
+    html = fetch_report_html(report_info)
+    if not html:
+        return jsonify({"error": "Could not fetch report", "directives": []}), 500
+
+    directives = extract_directives(html)
+    return jsonify({
+        "subcommittee": sub["name"],
+        "chamber": chamber,
+        "directives": directives,
+        "count": len(directives),
+    })
+
+
+def extract_directives(html):
+    """Extract committee directives from report text.
+
+    Looks for patterns like:
+    - "the Committee directs..."
+    - "the Committee recommends..."
+    - "the Committee encourages..."
+    - "the Committee requests..."
+    - "the Committee expects..."
+    """
+    if not html:
+        return []
+
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.get_text()
+
+    # Clean up text whitespace for better matching
+    text = re.sub(r"\s+", " ", text)
+
+    directive_pattern = re.compile(
+        r"(?:The |the )?Committee\s+"
+        r"(directs?|recommends?|encourages?|requests?|expects?|"
+        r"urges?|instructs?|notes? that|believes?|supports?|requires?)"
+        r"\s+(.{30,500}?\.)",
+        re.DOTALL,
+    )
+
+    directives = []
+    seen = set()
+    for match in directive_pattern.finditer(text):
+        verb = match.group(1).strip().lower()
+        detail = match.group(2).strip()
+        # Clean up whitespace
+        detail = re.sub(r"\s+", " ", detail)
+        # Deduplicate
+        key = detail[:80].lower()
+        if key not in seen:
+            seen.add(key)
+            full_text = f"The Committee {verb} {detail}"
+            # Ensure it ends with a period
+            if not full_text.endswith("."):
+                full_text += "."
+            directives.append({
+                "verb": verb,
+                "text": full_text,
+                "strength": (
+                    "directive" if verb in ("directs", "direct", "instructs", "instruct", "requires", "require")
+                    else "recommendation" if verb in ("recommends", "recommend", "encourages", "encourage", "urges", "urge")
+                    else "expectation" if verb in ("expects", "expect", "requests", "request")
+                    else "observation"
+                ),
+            })
+
+    return directives
+
+
+@app.route("/api/agency-search")
+def api_agency_search():
+    """Search for an agency by name and return its subcommittee info."""
+    query = request.args.get("q", "").strip().lower()
+    if not query or len(query) < 2:
+        return jsonify({"results": []})
+
+    agencies = fetch_agencies()
+    cbj_map = build_agency_cbj_map(agencies)
+
+    results = []
+
+    def matches_agency(query, name, abbreviation=""):
+        """Smart matching: abbreviation, word-start, or full substring for longer queries."""
+        name_lower = name.lower()
+        abbr_lower = abbreviation.lower() if abbreviation else ""
+        # Exact abbreviation match
+        if abbr_lower and query == abbr_lower:
+            return 2  # high priority
+        # Abbreviation contains
+        if abbr_lower and query in abbr_lower:
+            return 2
+        # Word-start matching (each word in the name)
+        words = name_lower.split()
+        if any(w.startswith(query) for w in words):
+            return 1
+        # For longer queries (4+ chars), allow substring matching
+        if len(query) >= 4 and query in name_lower:
+            return 0
+        return -1
+
+    for sub in SUBCOMMITTEES:
+        for agency_name in sub["agencies"]:
+            info = cbj_map.get(agency_name, {})
+            score = matches_agency(query, agency_name, info.get("abbreviation", ""))
+            if score >= 0:
+                results.append({
+                    "name": agency_name,
+                    "subcommittee": sub["short_name"],
+                    "subcommittee_id": sub["id"],
+                    "cbj_url": info.get("url"),
+                    "usaspending_url": (
+                        f"https://www.usaspending.gov/agency/{info['agency_slug']}"
+                        if info.get("agency_slug")
+                        else None
+                    ),
+                    "_score": score,
+                })
+
+    # Also search all USASpending agencies not in our mapping
+    for agency in agencies:
+        name = agency.get("agency_name", "")
+        abbr = agency.get("abbreviation", "")
+        score = matches_agency(query, name, abbr)
+        if score >= 0 and not any(r["name"] == name for r in results):
+            results.append({
+                "name": name,
+                "subcommittee": None,
+                "subcommittee_id": None,
+                "cbj_url": agency.get("congressional_justification_url"),
+                "usaspending_url": (
+                    f"https://www.usaspending.gov/agency/{agency['agency_slug']}"
+                    if agency.get("agency_slug")
+                    else None
+                ),
+                "_score": score,
+            })
+
+    # Sort by score (higher first), then alphabetically
+    results.sort(key=lambda r: (-r.get("_score", 0), r["name"]))
+    for r in results:
+        r.pop("_score", None)
+
+    return jsonify({"results": results[:20]})
+
+
 def extract_snippet(text, query, max_len=300):
     """Extract a relevant snippet from text around the query."""
     query_lower = query.lower()

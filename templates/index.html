@@ -21,13 +21,10 @@
             --blue-link: #1a56db;
             --red-accent: #9b2c2c;
             --green-accent: #276749;
+            --amber: #92400e;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -39,77 +36,61 @@
         header {
             background: var(--navy);
             color: var(--white);
-            padding: 0;
             border-bottom: 4px solid var(--gold);
         }
 
         .header-inner {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1.5rem 2rem;
+            padding: 1.25rem 2rem;
         }
 
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-        }
-
-        h1 span {
-            color: var(--gold-light);
-        }
+        h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: 0.02em; }
+        h1 span { color: var(--gold-light); }
 
         .header-subtitle {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
         }
 
         .fiscal-year-badge {
             background: var(--gold);
             color: var(--white);
-            padding: 0.25rem 0.75rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
-        /* Search bar */
-        .search-container {
+        /* Search area - prominent */
+        .search-area {
             display: flex;
             gap: 0.5rem;
-            max-width: 600px;
         }
 
-        .search-container input {
+        .search-area input {
             flex: 1;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
             border: 2px solid var(--navy-light);
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             background: rgba(255,255,255,0.1);
             color: var(--white);
             outline: none;
         }
 
-        .search-container input::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
+        .search-area input::placeholder { color: rgba(255,255,255,0.5); }
+        .search-area input:focus { border-color: var(--gold); background: rgba(255,255,255,0.15); }
 
-        .search-container input:focus {
-            border-color: var(--gold);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .search-container button {
-            padding: 0.5rem 1rem;
+        .search-area button {
+            padding: 0.6rem 1.2rem;
             background: var(--gold);
             color: var(--white);
             border: none;
@@ -117,10 +98,43 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
+            white-space: nowrap;
         }
 
-        .search-container button:hover {
-            background: var(--gold-light);
+        .search-area button:hover { background: var(--gold-light); }
+
+        /* Agency autocomplete */
+        .agency-search-wrapper { position: relative; flex: 1; max-width: 350px; }
+
+        .agency-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .agency-dropdown.active { display: block; }
+
+        .agency-dropdown-item {
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-900);
+            font-size: 0.85rem;
+        }
+
+        .agency-dropdown-item:hover { background: var(--gray-100); }
+        .agency-dropdown-item .sub-label {
+            font-size: 0.7rem;
+            color: var(--gray-500);
         }
 
         /* Main layout */
@@ -129,12 +143,12 @@
             margin: 0 auto;
             padding: 1.5rem 2rem;
             display: grid;
-            grid-template-columns: 320px 1fr;
+            grid-template-columns: 280px 1fr;
             gap: 1.5rem;
             min-height: calc(100vh - 160px);
         }
 
-        /* Sidebar: subcommittee list */
+        /* Sidebar */
         .sidebar {
             background: var(--white);
             border-radius: 8px;
@@ -146,49 +160,42 @@
         }
 
         .sidebar-header {
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             background: var(--gray-100);
             border-bottom: 1px solid var(--gray-200);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--gray-500);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .sub-item {
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.75rem;
             border-bottom: 1px solid var(--gray-100);
             cursor: pointer;
             transition: background 0.15s;
         }
 
-        .sub-item:hover {
-            background: var(--gray-100);
-        }
+        .sub-item:hover { background: var(--gray-100); }
 
         .sub-item.active {
             background: #eef2ff;
             border-left: 3px solid var(--navy);
         }
 
-        .sub-item-name {
-            font-weight: 500;
-            font-size: 0.9rem;
-            color: var(--gray-900);
-        }
+        .sub-item-name { font-weight: 500; font-size: 0.85rem; }
 
         .sub-item-agencies {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--gray-500);
-            margin-top: 0.2rem;
+            margin-top: 0.1rem;
         }
 
         /* Content area */
-        .content {
-            min-width: 0;
-        }
+        .content { min-width: 0; }
 
+        /* Welcome panel */
         .welcome-panel {
             background: var(--white);
             border-radius: 8px;
@@ -197,188 +204,110 @@
             text-align: center;
         }
 
-        .welcome-panel h2 {
-            font-size: 1.3rem;
-            color: var(--navy);
-            margin-bottom: 1rem;
-        }
+        .welcome-panel h2 { font-size: 1.2rem; color: var(--navy); margin-bottom: 0.75rem; }
+        .welcome-panel p { color: var(--gray-500); max-width: 600px; margin: 0 auto 1rem; font-size: 0.9rem; }
 
-        .welcome-panel p {
-            color: var(--gray-500);
-            max-width: 600px;
-            margin: 0 auto 1rem;
-        }
-
-        .welcome-steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-top: 1.5rem;
-            text-align: left;
-        }
-
-        .welcome-step {
-            background: var(--gray-100);
-            border-radius: 8px;
-            padding: 1.25rem;
-        }
-
-        .welcome-step-number {
-            background: var(--navy);
-            color: var(--white);
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+        .quick-actions {
             display: flex;
-            align-items: center;
+            gap: 0.75rem;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
         }
 
-        .welcome-step h3 {
-            font-size: 0.9rem;
-            margin-bottom: 0.3rem;
+        .quick-action {
+            padding: 0.5rem 1rem;
+            background: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            transition: all 0.15s;
         }
 
-        .welcome-step p {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-            margin: 0;
+        .quick-action:hover {
+            background: #eef2ff;
+            border-color: var(--navy);
+            color: var(--navy);
         }
 
-        /* Subcommittee detail panel */
-        .sub-detail {
-            display: none;
-        }
-
-        .sub-detail.active {
-            display: block;
-        }
+        /* Sub detail */
+        .sub-detail { display: none; }
+        .sub-detail.active { display: block; }
 
         .sub-header {
             background: var(--white);
             border-radius: 8px;
             border: 1px solid var(--gray-200);
-            padding: 1.5rem;
+            padding: 1.25rem;
             margin-bottom: 1rem;
         }
 
-        .sub-header h2 {
-            font-size: 1.2rem;
-            color: var(--navy);
-            margin-bottom: 0.5rem;
-        }
+        .sub-header h2 { font-size: 1.1rem; color: var(--navy); margin-bottom: 0.25rem; }
+        .sub-header .bill-info { font-size: 0.8rem; color: var(--gray-500); }
 
-        .sub-header .bill-info {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-        }
-
-        .chamber-tabs {
+        .view-tabs {
             display: flex;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-top: 0.75rem;
         }
 
-        .chamber-tab {
-            padding: 0.4rem 1rem;
+        .view-tab {
+            padding: 0.35rem 0.75rem;
             border: 2px solid var(--gray-200);
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             background: var(--white);
             color: var(--gray-700);
             transition: all 0.15s;
         }
 
-        .chamber-tab:hover {
-            border-color: var(--navy-light);
-        }
+        .view-tab:hover { border-color: var(--navy-light); }
 
-        .chamber-tab.active {
+        .view-tab.active {
             background: var(--navy);
             color: var(--white);
             border-color: var(--navy);
         }
 
-        .chamber-tab.unavailable {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .view-tab.unavailable { opacity: 0.5; cursor: not-allowed; }
 
         /* Agency cards */
-        .agency-grid {
-            display: grid;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
+        .agency-grid { display: grid; gap: 0.5rem; margin-bottom: 1rem; }
 
         .agency-card {
             background: var(--white);
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid var(--gray-200);
-            padding: 1rem 1.25rem;
+            padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: box-shadow 0.15s;
         }
 
-        .agency-card:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+        .agency-name { font-weight: 500; font-size: 0.9rem; }
 
-        .agency-name {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .agency-links {
-            display: flex;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
+        .agency-links { display: flex; gap: 0.4rem; flex-shrink: 0; }
 
         .agency-link {
-            padding: 0.3rem 0.75rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
             text-decoration: none;
             transition: all 0.15s;
         }
 
-        .cbj-link {
-            background: #f0fdf4;
-            color: var(--green-accent);
-            border: 1px solid #bbf7d0;
-        }
+        .cbj-link { background: #f0fdf4; color: var(--green-accent); border: 1px solid #bbf7d0; }
+        .cbj-link:hover { background: #dcfce7; }
+        .usa-link { background: #eff6ff; color: var(--blue-link); border: 1px solid #bfdbfe; }
+        .usa-link:hover { background: #dbeafe; }
+        .no-link { background: var(--gray-100); color: var(--gray-500); border: 1px solid var(--gray-200); cursor: default; }
 
-        .cbj-link:hover {
-            background: #dcfce7;
-        }
-
-        .usa-link {
-            background: #eff6ff;
-            color: var(--blue-link);
-            border: 1px solid #bfdbfe;
-        }
-
-        .usa-link:hover {
-            background: #dbeafe;
-        }
-
-        .no-link {
-            background: var(--gray-100);
-            color: var(--gray-500);
-            border: 1px solid var(--gray-200);
-            cursor: default;
-        }
-
-        /* Report sections */
+        /* Report panel */
         .report-panel {
             background: var(--white);
             border-radius: 8px;
@@ -387,7 +316,7 @@
         }
 
         .report-header {
-            padding: 1rem 1.25rem;
+            padding: 0.75rem 1rem;
             background: var(--gray-100);
             border-bottom: 1px solid var(--gray-200);
             display: flex;
@@ -395,266 +324,233 @@
             align-items: center;
         }
 
-        .report-header h3 {
-            font-size: 0.95rem;
-            color: var(--navy);
-        }
-
-        .report-header a {
-            font-size: 0.8rem;
-            color: var(--blue-link);
-        }
+        .report-header h3 { font-size: 0.9rem; color: var(--navy); }
+        .report-header a { font-size: 0.75rem; color: var(--blue-link); }
 
         .report-loading {
-            padding: 3rem;
+            padding: 2.5rem;
             text-align: center;
             color: var(--gray-500);
         }
 
-        .report-loading .spinner {
-            width: 32px;
-            height: 32px;
+        .spinner {
+            width: 28px; height: 28px;
             border: 3px solid var(--gray-200);
             border-top-color: var(--navy);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin: 0 auto 1rem;
+            margin: 0 auto 0.75rem;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .report-sections {
-            max-height: 60vh;
-            overflow-y: auto;
-        }
+        .report-sections { max-height: 60vh; overflow-y: auto; }
 
         .report-section {
-            padding: 0.75rem 1.25rem;
+            padding: 0.6rem 1rem;
             border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
         }
 
         .report-section.level-0 {
             background: var(--navy);
             color: var(--white);
             font-weight: 600;
-            font-size: 0.9rem;
-            padding: 0.5rem 1.25rem;
-            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 0.4rem 1rem;
         }
 
         .report-section.level-1 {
             background: #f0f4ff;
             border-left: 3px solid var(--navy);
-            cursor: pointer;
         }
 
-        .report-section.level-1 .section-heading {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--navy);
-        }
+        .report-section.level-1 .section-heading { font-weight: 600; font-size: 0.85rem; color: var(--navy); }
 
-        .report-section.level-2 {
-            padding-left: 2rem;
-            cursor: pointer;
-        }
+        .report-section.level-2 { padding-left: 1.75rem; }
+        .report-section.level-2 .section-heading { font-weight: 500; font-size: 0.8rem; color: var(--gray-700); }
 
-        .report-section.level-2 .section-heading {
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: var(--gray-700);
-        }
+        .section-heading { display: flex; align-items: center; gap: 0.4rem; }
 
-        .section-heading {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .section-toggle {
-            font-size: 0.7rem;
-            color: var(--gray-500);
-            transition: transform 0.2s;
-        }
-
-        .section-toggle.open {
-            transform: rotate(90deg);
-        }
+        .section-toggle { font-size: 0.65rem; color: var(--gray-500); transition: transform 0.2s; }
+        .section-toggle.open { transform: rotate(90deg); }
 
         .section-content {
             display: none;
-            margin-top: 0.75rem;
-            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
             line-height: 1.7;
             color: var(--gray-700);
             white-space: pre-wrap;
-            max-height: 400px;
+            max-height: 350px;
             overflow-y: auto;
-            padding: 0.75rem;
+            padding: 0.6rem;
             background: var(--gray-100);
             border-radius: 4px;
+            position: relative;
         }
 
-        .section-content.open {
-            display: block;
+        .section-content.open { display: block; }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.4rem;
+            right: 0.4rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--white);
+            border: 1px solid var(--gray-300);
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: var(--gray-500);
         }
 
-        /* Search results */
-        .search-results {
+        .copy-btn:hover { background: var(--gray-100); color: var(--gray-900); }
+
+        .section-filter {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .section-filter input {
+            width: 100%;
+            padding: 0.35rem 0.6rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            outline: none;
+        }
+
+        .section-filter input:focus { border-color: var(--navy); }
+
+        /* Directives panel */
+        .directives-panel {
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
             display: none;
         }
 
-        .search-results.active {
-            display: block;
+        .directives-panel.active { display: block; }
+
+        .directive-item {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 0.85rem;
+            line-height: 1.6;
         }
+
+        .directive-badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 0.4rem;
+        }
+
+        .directive-badge.directive { background: #fef2f2; color: var(--red-accent); }
+        .directive-badge.recommendation { background: #fffbeb; color: var(--amber); }
+        .directive-badge.expectation { background: #eff6ff; color: var(--blue-link); }
+        .directive-badge.observation { background: var(--gray-100); color: var(--gray-500); }
+
+        /* Search results */
+        .search-results { display: none; }
+        .search-results.active { display: block; }
 
         .search-result-header {
             background: var(--white);
             border-radius: 8px;
             border: 1px solid var(--gray-200);
-            padding: 1.25rem;
-            margin-bottom: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .search-result-header h2 {
-            font-size: 1.1rem;
-            color: var(--navy);
-        }
+        .search-result-header h2 { font-size: 1rem; color: var(--navy); }
 
         .search-close {
-            padding: 0.3rem 0.75rem;
+            padding: 0.25rem 0.6rem;
             background: var(--gray-100);
             border: 1px solid var(--gray-200);
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
-        .search-close:hover {
-            background: var(--gray-200);
-        }
+        .search-close:hover { background: var(--gray-200); }
 
         .search-result-item {
             background: var(--white);
             border-radius: 8px;
             border: 1px solid var(--gray-200);
-            padding: 1rem 1.25rem;
-            margin-bottom: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: box-shadow 0.15s;
         }
 
-        .search-result-meta {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
+        .search-result-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+        .search-result-meta { display: flex; gap: 0.4rem; margin-bottom: 0.4rem; }
 
         .search-tag {
-            font-size: 0.75rem;
-            padding: 0.15rem 0.5rem;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
             border-radius: 3px;
             font-weight: 500;
         }
 
-        .search-tag.sub {
-            background: #eef2ff;
-            color: var(--navy);
-        }
-
-        .search-tag.chamber {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .search-tag.agency {
-            background: #f0fdf4;
-            color: var(--green-accent);
-        }
+        .search-tag.sub { background: #eef2ff; color: var(--navy); }
+        .search-tag.chamber { background: #fef3c7; color: var(--amber); }
+        .search-tag.agency { background: #f0fdf4; color: var(--green-accent); }
 
         .search-snippet {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--gray-700);
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        .search-snippet mark {
-            background: #fef08a;
-            padding: 0.1rem 0.2rem;
-            border-radius: 2px;
-        }
+        .search-snippet mark { background: #fef08a; padding: 0.05rem 0.15rem; border-radius: 2px; }
 
-        /* Error/empty states */
+        /* Utility */
         .error-message {
             background: #fef2f2;
             border: 1px solid #fecaca;
             border-radius: 8px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             color: var(--red-accent);
             text-align: center;
+            font-size: 0.9rem;
         }
 
         .empty-message {
             background: var(--gray-100);
             border-radius: 8px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             color: var(--gray-500);
+            font-size: 0.9rem;
         }
 
-        /* Footer */
         footer {
             background: var(--navy);
             color: rgba(255,255,255,0.6);
-            padding: 1rem 2rem;
-            font-size: 0.8rem;
+            padding: 0.75rem 2rem;
+            font-size: 0.75rem;
             text-align: center;
             margin-top: 2rem;
         }
 
-        footer a {
-            color: var(--gold-light);
-        }
+        footer a { color: var(--gold-light); }
 
-        /* Section filter */
-        .section-filter {
-            padding: 0.75rem 1.25rem;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .section-filter input {
-            flex: 1;
-            padding: 0.4rem 0.75rem;
-            border: 1px solid var(--gray-200);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            outline: none;
-        }
-
-        .section-filter input:focus {
-            border-color: var(--navy);
-        }
-
-        /* Responsive */
         @media (max-width: 900px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                padding: 1rem;
-            }
-
-            .sidebar {
-                position: static;
-                max-height: none;
-            }
-
-            .welcome-steps {
-                grid-template-columns: 1fr;
-            }
+            .main-container { grid-template-columns: 1fr; padding: 1rem; }
+            .sidebar { position: static; max-height: none; }
         }
     </style>
 </head>
@@ -668,39 +564,36 @@
                 </div>
                 <span class="fiscal-year-badge">FY 2024 &middot; 118th Congress</span>
             </div>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search committee report language (e.g., 'cybersecurity', 'rural broadband')..." />
-                <button onclick="performSearch()">Search</button>
+            <div class="search-area">
+                <div class="agency-search-wrapper">
+                    <input type="text" id="agency-search" placeholder="Find an agency (e.g., 'EPA', 'Defense')..." oninput="searchAgency(this.value)" onfocus="searchAgency(this.value)" />
+                    <div class="agency-dropdown" id="agency-dropdown"></div>
+                </div>
+                <input type="text" id="search-input" placeholder="Search report language (e.g., 'cybersecurity', 'rural broadband')..." style="flex:2" />
+                <button onclick="performSearch()">Search Reports</button>
             </div>
         </div>
     </header>
 
     <div class="main-container">
         <aside class="sidebar">
-            <div class="sidebar-header">12 Appropriations Subcommittees</div>
+            <div class="sidebar-header">Appropriations Subcommittees</div>
             <div id="sub-list"></div>
         </aside>
 
         <main class="content">
             <div id="welcome-panel" class="welcome-panel">
-                <h2>Cross-Reference Budget Justifications with Committee Report Language</h2>
-                <p>Select an appropriations subcommittee to view the agencies it covers, their Congressional Budget Justifications (CBJs), and the corresponding committee report sections.</p>
-                <div class="welcome-steps">
-                    <div class="welcome-step">
-                        <div class="welcome-step-number">1</div>
-                        <h3>Pick a Subcommittee</h3>
-                        <p>Choose from the 12 appropriations subcommittees in the sidebar</p>
-                    </div>
-                    <div class="welcome-step">
-                        <div class="welcome-step-number">2</div>
-                        <h3>View Agencies & CBJs</h3>
-                        <p>See which agencies fall under that bill, with links to their budget justifications</p>
-                    </div>
-                    <div class="welcome-step">
-                        <div class="welcome-step-number">3</div>
-                        <h3>Read Report Language</h3>
-                        <p>Browse the committee report sections organized by agency and account</p>
-                    </div>
+                <h2>Cross-Reference Budget Justifications &amp; Committee Report Language</h2>
+                <p>Find an agency or search committee report text to get started. Or browse by subcommittee.</p>
+                <div class="quick-actions">
+                    <button class="quick-action" onclick="quickSearch('cybersecurity')">cybersecurity</button>
+                    <button class="quick-action" onclick="quickSearch('artificial intelligence')">artificial intelligence</button>
+                    <button class="quick-action" onclick="quickSearch('climate')">climate</button>
+                    <button class="quick-action" onclick="quickSearch('opioid')">opioid</button>
+                    <button class="quick-action" onclick="quickSearch('broadband')">broadband</button>
+                    <button class="quick-action" onclick="quickSearch('workforce')">workforce</button>
+                    <button class="quick-action" onclick="quickSearch('inspector general')">inspector general</button>
+                    <button class="quick-action" onclick="quickSearch('mental health')">mental health</button>
                 </div>
             </div>
 
@@ -720,9 +613,10 @@
         let agencyData = [];
         let currentSub = null;
         let currentChamber = 'house';
+        let currentView = 'report'; // 'report' or 'directives'
         let reportCache = {};
+        let directiveCache = {};
 
-        // Initialize
         async function init() {
             try {
                 const [subResp, agencyResp] = await Promise.all([
@@ -739,16 +633,60 @@
 
         function renderSidebar() {
             const list = document.getElementById('sub-list');
-            list.innerHTML = agencyData.map((sub, i) => `
+            list.innerHTML = agencyData.map(sub => `
                 <div class="sub-item" data-id="${sub.id}" onclick="selectSub('${sub.id}')">
                     <div class="sub-item-name">${sub.short_name}</div>
-                    <div class="sub-item-agencies">${sub.agencies.length} ${sub.agencies.length === 1 ? 'agency' : 'agencies'} &middot; ${sub.house_bill}</div>
+                    <div class="sub-item-agencies">${sub.agencies.length} ${sub.agencies.length === 1 ? 'agency' : 'agencies'}</div>
                 </div>
             `).join('');
         }
 
+        // Agency autocomplete
+        let agencyDebounce;
+        async function searchAgency(query) {
+            clearTimeout(agencyDebounce);
+            const dropdown = document.getElementById('agency-dropdown');
+            if (!query || query.length < 2) {
+                dropdown.classList.remove('active');
+                return;
+            }
+            agencyDebounce = setTimeout(async () => {
+                try {
+                    const resp = await fetch(`/api/agency-search?q=${encodeURIComponent(query)}`);
+                    const data = await resp.json();
+                    if (data.results.length === 0) {
+                        dropdown.classList.remove('active');
+                        return;
+                    }
+                    dropdown.innerHTML = data.results.map(a => `
+                        <div class="agency-dropdown-item" onclick="selectAgency('${a.subcommittee_id || ''}', '${escapeHtml(a.name)}')">
+                            <div>${a.name}</div>
+                            ${a.subcommittee ? `<div class="sub-label">${a.subcommittee} subcommittee</div>` : '<div class="sub-label">Not mapped to subcommittee</div>'}
+                        </div>
+                    `).join('');
+                    dropdown.classList.add('active');
+                } catch (err) {
+                    dropdown.classList.remove('active');
+                }
+            }, 200);
+        }
+
+        function selectAgency(subId, agencyName) {
+            document.getElementById('agency-dropdown').classList.remove('active');
+            document.getElementById('agency-search').value = '';
+            if (subId) {
+                selectSub(subId);
+            }
+        }
+
+        // Close dropdown on outside click
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.agency-search-wrapper')) {
+                document.getElementById('agency-dropdown').classList.remove('active');
+            }
+        });
+
         function selectSub(id) {
-            // Update sidebar active state
             document.querySelectorAll('.sub-item').forEach(el => {
                 el.classList.toggle('active', el.dataset.id === id);
             });
@@ -756,7 +694,6 @@
             currentSub = agencyData.find(s => s.id === id);
             const subMeta = subcommittees.find(s => s.id === id);
 
-            // Hide welcome, show detail
             document.getElementById('welcome-panel').style.display = 'none';
             document.getElementById('search-results').classList.remove('active');
 
@@ -765,8 +702,6 @@
 
             const hasHouse = subMeta.house_report !== null;
             const hasSenate = subMeta.senate_report !== null;
-
-            // Default to available chamber
             if (!hasHouse && hasSenate) currentChamber = 'senate';
             else if (hasHouse) currentChamber = 'house';
 
@@ -774,17 +709,20 @@
                 <div class="sub-header">
                     <h2>${currentSub.name}</h2>
                     <div class="bill-info">${currentSub.house_bill} &middot; FY 2024</div>
-                    <div class="chamber-tabs">
-                        <button class="chamber-tab ${currentChamber === 'house' ? 'active' : ''} ${!hasHouse ? 'unavailable' : ''}"
+                    <div class="view-tabs">
+                        <button class="view-tab ${currentChamber === 'house' ? 'active' : ''} ${!hasHouse ? 'unavailable' : ''}"
                                 onclick="${hasHouse ? "switchChamber('house')" : ''}"
-                                ${!hasHouse ? 'title="No House committee report available"' : ''}>
+                                ${!hasHouse ? 'title="No House report available"' : ''}>
                             House Report${!hasHouse ? ' (N/A)' : ''}
                         </button>
-                        <button class="chamber-tab ${currentChamber === 'senate' ? 'active' : ''} ${!hasSenate ? 'unavailable' : ''}"
+                        <button class="view-tab ${currentChamber === 'senate' ? 'active' : ''} ${!hasSenate ? 'unavailable' : ''}"
                                 onclick="${hasSenate ? "switchChamber('senate')" : ''}"
-                                ${!hasSenate ? 'title="No Senate committee report available"' : ''}>
+                                ${!hasSenate ? 'title="No Senate report available"' : ''}>
                             Senate Report${!hasSenate ? ' (N/A)' : ''}
                         </button>
+                        <span style="flex:1"></span>
+                        <button class="view-tab" id="btn-report" onclick="switchView('report')" style="border-color:var(--navy);color:var(--navy)">Report Sections</button>
+                        <button class="view-tab" id="btn-directives" onclick="switchView('directives')">Directives</button>
                     </div>
                 </div>
 
@@ -793,62 +731,68 @@
                         <div class="agency-card">
                             <div class="agency-name">${a.name}</div>
                             <div class="agency-links">
-                                ${a.cbj_url
-                                    ? `<a href="${a.cbj_url}" target="_blank" class="agency-link cbj-link">CBJ</a>`
-                                    : `<span class="agency-link no-link">No CBJ</span>`}
-                                ${a.usaspending_url
-                                    ? `<a href="${a.usaspending_url}" target="_blank" class="agency-link usa-link">USASpending</a>`
-                                    : ''}
+                                ${a.cbj_url ? `<a href="${a.cbj_url}" target="_blank" class="agency-link cbj-link">CBJ</a>` : `<span class="agency-link no-link">No CBJ</span>`}
+                                ${a.usaspending_url ? `<a href="${a.usaspending_url}" target="_blank" class="agency-link usa-link">USASpending</a>` : ''}
                             </div>
                         </div>
                     `).join('')}
                 </div>
 
-                <div class="report-panel">
+                <div class="report-panel" id="report-panel">
                     <div class="report-header">
                         <h3 id="report-title">Committee Report</h3>
                         <a id="report-full-link" href="#" target="_blank" style="display:none">View Full Report</a>
                     </div>
                     <div class="section-filter">
-                        <input type="text" id="section-filter-input" placeholder="Filter report sections..." oninput="filterSections()" />
+                        <input type="text" id="section-filter-input" placeholder="Filter sections..." oninput="filterSections()" />
                     </div>
                     <div id="report-content" class="report-sections">
-                        <div class="report-loading">
-                            <div class="spinner"></div>
-                            Loading committee report...
-                        </div>
+                        <div class="report-loading"><div class="spinner"></div>Loading report...</div>
+                    </div>
+                </div>
+
+                <div class="directives-panel" id="directives-panel">
+                    <div class="report-header">
+                        <h3 id="directives-title">Committee Directives</h3>
+                        <button class="copy-btn" onclick="copyDirectives()" style="position:static">Copy All</button>
+                    </div>
+                    <div id="directives-content">
+                        <div class="report-loading"><div class="spinner"></div>Extracting directives...</div>
                     </div>
                 </div>
             `;
 
+            currentView = 'report';
             loadReport(id, currentChamber);
         }
 
         function switchChamber(chamber) {
             currentChamber = chamber;
-            document.querySelectorAll('.chamber-tab').forEach(el => {
-                el.classList.toggle('active', el.textContent.toLowerCase().includes(chamber));
-            });
+            // Update chamber tab styling
+            const tabs = document.querySelectorAll('.view-tabs .view-tab');
+            tabs[0].classList.toggle('active', chamber === 'house');
+            tabs[1].classList.toggle('active', chamber === 'senate');
             loadReport(currentSub.id, chamber);
+            if (currentView === 'directives') loadDirectives(currentSub.id, chamber);
+        }
+
+        function switchView(view) {
+            currentView = view;
+            document.getElementById('report-panel').style.display = view === 'report' ? '' : 'none';
+            document.getElementById('directives-panel').classList.toggle('active', view === 'directives');
+            document.getElementById('btn-report').style.borderColor = view === 'report' ? 'var(--navy)' : '';
+            document.getElementById('btn-report').style.color = view === 'report' ? 'var(--navy)' : '';
+            document.getElementById('btn-directives').style.borderColor = view === 'directives' ? 'var(--navy)' : '';
+            document.getElementById('btn-directives').style.color = view === 'directives' ? 'var(--navy)' : '';
+            if (view === 'directives') loadDirectives(currentSub.id, currentChamber);
         }
 
         async function loadReport(subId, chamber) {
             const cacheKey = `${subId}_${chamber}`;
             const content = document.getElementById('report-content');
-            const titleEl = document.getElementById('report-title');
-            const linkEl = document.getElementById('report-full-link');
+            content.innerHTML = `<div class="report-loading"><div class="spinner"></div>Loading ${chamber} report...</div>`;
 
-            content.innerHTML = `
-                <div class="report-loading">
-                    <div class="spinner"></div>
-                    Loading ${chamber} committee report...
-                </div>
-            `;
-
-            if (reportCache[cacheKey]) {
-                renderReport(reportCache[cacheKey]);
-                return;
-            }
+            if (reportCache[cacheKey]) { renderReport(reportCache[cacheKey]); return; }
 
             try {
                 const resp = await fetch(`/api/report/${subId}/${chamber}`);
@@ -861,54 +805,114 @@
                 reportCache[cacheKey] = data;
                 renderReport(data);
             } catch (err) {
-                content.innerHTML = `<div class="error-message">Failed to load report: ${err.message}</div>`;
+                content.innerHTML = `<div class="error-message">Failed to load: ${err.message}</div>`;
             }
         }
 
         function renderReport(data) {
             const content = document.getElementById('report-content');
-            const titleEl = document.getElementById('report-title');
+            document.getElementById('report-title').textContent = `${data.report_citation} - ${data.subcommittee}`;
+
             const linkEl = document.getElementById('report-full-link');
-
-            titleEl.textContent = `${data.report_citation} - ${data.subcommittee}`;
-
-            if (data.report_url) {
-                linkEl.href = data.report_url;
-                linkEl.style.display = 'inline';
-            }
+            if (data.report_url) { linkEl.href = data.report_url; linkEl.style.display = 'inline'; }
 
             if (!data.sections || data.sections.length === 0) {
-                content.innerHTML = `<div class="empty-message">No parseable sections found in this report.</div>`;
+                content.innerHTML = `<div class="empty-message">No sections found.</div>`;
                 return;
             }
 
             content.innerHTML = data.sections.map((section, i) => {
                 const heading = section.heading || section.title || 'Section';
                 return `
-                    <div class="report-section level-${section.level}" data-index="${i}" onclick="toggleSection(${i})">
+                    <div class="report-section level-${section.level}" data-index="${i}" onclick="toggleSection(${i}, event)">
                         <div class="section-heading">
                             <span class="section-toggle" id="toggle-${i}">&#9654;</span>
                             ${escapeHtml(heading)}
                         </div>
-                        <div class="section-content" id="content-${i}">${escapeHtml(section.content)}</div>
+                        <div class="section-content" id="content-${i}">
+                            <button class="copy-btn" onclick="copySection(${i}, event)">Copy</button>
+                            ${escapeHtml(section.content)}
+                        </div>
                     </div>
                 `;
             }).join('');
         }
 
-        function toggleSection(i) {
+        function toggleSection(i, event) {
+            if (event && event.target.classList.contains('copy-btn')) return;
             const content = document.getElementById(`content-${i}`);
             const toggle = document.getElementById(`toggle-${i}`);
             content.classList.toggle('open');
             toggle.classList.toggle('open');
         }
 
+        function copySection(i, event) {
+            event.stopPropagation();
+            const content = document.getElementById(`content-${i}`);
+            const text = content.textContent.replace('Copy', '').trim();
+            navigator.clipboard.writeText(text).then(() => {
+                event.target.textContent = 'Copied!';
+                setTimeout(() => event.target.textContent = 'Copy', 1500);
+            });
+        }
+
+        async function loadDirectives(subId, chamber) {
+            const cacheKey = `dir_${subId}_${chamber}`;
+            const content = document.getElementById('directives-content');
+            content.innerHTML = `<div class="report-loading"><div class="spinner"></div>Extracting directives...</div>`;
+
+            if (directiveCache[cacheKey]) { renderDirectives(directiveCache[cacheKey]); return; }
+
+            try {
+                const resp = await fetch(`/api/directives/${subId}/${chamber}`);
+                if (!resp.ok) {
+                    content.innerHTML = `<div class="error-message">Could not extract directives.</div>`;
+                    return;
+                }
+                const data = await resp.json();
+                directiveCache[cacheKey] = data;
+                renderDirectives(data);
+            } catch (err) {
+                content.innerHTML = `<div class="error-message">Failed: ${err.message}</div>`;
+            }
+        }
+
+        function renderDirectives(data) {
+            const content = document.getElementById('directives-content');
+            document.getElementById('directives-title').textContent = `${data.count} Committee Directives - ${data.subcommittee}`;
+
+            if (!data.directives || data.directives.length === 0) {
+                content.innerHTML = `<div class="empty-message">No directives found.</div>`;
+                return;
+            }
+
+            content.innerHTML = `<div style="max-height:60vh;overflow-y:auto">` +
+                data.directives.map(d => `
+                    <div class="directive-item">
+                        <span class="directive-badge ${d.strength}">${d.strength}</span>
+                        ${escapeHtml(d.text)}
+                    </div>
+                `).join('') + '</div>';
+        }
+
+        function copyDirectives() {
+            const cacheKey = `dir_${currentSub.id}_${currentChamber}`;
+            const data = directiveCache[cacheKey];
+            if (!data || !data.directives) return;
+            const text = data.directives.map(d => `[${d.strength.toUpperCase()}] ${d.text}`).join('\n\n');
+            navigator.clipboard.writeText(text);
+        }
+
         function filterSections() {
             const query = document.getElementById('section-filter-input').value.toLowerCase();
             document.querySelectorAll('.report-section').forEach(el => {
-                const text = el.textContent.toLowerCase();
-                el.style.display = text.includes(query) ? '' : 'none';
+                el.style.display = el.textContent.toLowerCase().includes(query) ? '' : 'none';
             });
+        }
+
+        function quickSearch(term) {
+            document.getElementById('search-input').value = term;
+            performSearch();
         }
 
         async function performSearch() {
@@ -921,13 +925,8 @@
             const results = document.getElementById('search-results');
             results.classList.add('active');
             results.innerHTML = `
-                <div class="search-result-header">
-                    <h2>Searching for "${escapeHtml(query)}"...</h2>
-                </div>
-                <div class="report-loading">
-                    <div class="spinner"></div>
-                    Searching across all committee reports...
-                </div>
+                <div class="search-result-header"><h2>Searching "${escapeHtml(query)}"...</h2></div>
+                <div class="report-loading"><div class="spinner"></div>Searching all reports...</div>
             `;
 
             try {
@@ -940,7 +939,7 @@
                             <h2>No results for "${escapeHtml(query)}"</h2>
                             <button class="search-close" onclick="closeSearch()">Close</button>
                         </div>
-                        <div class="empty-message">No matching sections found. Try different keywords or browse by subcommittee.</div>
+                        <div class="empty-message">Try different keywords or browse by subcommittee.</div>
                     `;
                     return;
                 }
@@ -968,34 +967,28 @@
 
         function closeSearch() {
             document.getElementById('search-results').classList.remove('active');
-            if (currentSub) {
-                document.getElementById('sub-detail').classList.add('active');
-            } else {
-                document.getElementById('welcome-panel').style.display = 'block';
-            }
+            if (currentSub) document.getElementById('sub-detail').classList.add('active');
+            else document.getElementById('welcome-panel').style.display = 'block';
         }
 
         function highlightQuery(text, query) {
             const words = query.split(/\s+/).filter(w => w.length > 1);
             let result = text;
             words.forEach(word => {
-                const regex = new RegExp(`(${escapeRegex(word)})`, 'gi');
-                result = result.replace(regex, '<mark>$1</mark>');
+                result = result.replace(new RegExp(`(${escapeRegex(word)})`, 'gi'), '<mark>$1</mark>');
             });
             return result;
         }
 
         function escapeHtml(str) {
+            if (!str) return '';
             const div = document.createElement('div');
             div.textContent = str;
             return div.innerHTML;
         }
 
-        function escapeRegex(str) {
-            return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
+        function escapeRegex(str) { return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
-        // Enter key triggers search
         document.getElementById('search-input').addEventListener('keydown', e => {
             if (e.key === 'Enter') performSearch();
         });
