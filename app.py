@@ -25,7 +25,7 @@ SUBCOMMITTEES = [
         "name": "Agriculture, Rural Development, FDA & Related Agencies",
         "short_name": "Agriculture",
         "house_report": {"congress": 118, "type": "HRPT", "number": 124},
-        "senate_report": {"congress": 118, "type": "SRPT", "number": 80},
+        "senate_report": {"congress": 118, "type": "SRPT", "number": 44},
         "house_bill": "H.R. 4368",
         "agencies": [
             "Department of Agriculture",
@@ -88,7 +88,7 @@ SUBCOMMITTEES = [
         "name": "Financial Services & General Government",
         "short_name": "Financial Services",
         "house_report": {"congress": 118, "type": "HRPT", "number": 145},
-        "senate_report": {"congress": 118, "type": "SRPT", "number": 75},
+        "senate_report": {"congress": 118, "type": "SRPT", "number": 61},
         "house_bill": "H.R. 4664",
         "agencies": [
             "Department of the Treasury",
@@ -156,7 +156,7 @@ SUBCOMMITTEES = [
         "name": "Labor, HHS, Education & Related Agencies",
         "short_name": "Labor-HHS-Education",
         "house_report": None,  # LHHS didn't get a formal House committee report in 118th
-        "senate_report": {"congress": 118, "type": "SRPT", "number": 82},
+        "senate_report": {"congress": 118, "type": "SRPT", "number": 84},
         "house_bill": "H.R. 5894",
         "agencies": [
             "Department of Labor",
@@ -188,7 +188,7 @@ SUBCOMMITTEES = [
         "name": "Military Construction, Veterans Affairs & Related Agencies",
         "short_name": "MilCon-VA",
         "house_report": {"congress": 118, "type": "HRPT", "number": 122},
-        "senate_report": {"congress": 118, "type": "SRPT", "number": 73},
+        "senate_report": {"congress": 118, "type": "SRPT", "number": 43},
         "house_bill": "H.R. 4366",
         "agencies": [
             "Department of Veterans Affairs",
