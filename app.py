@@ -381,7 +381,8 @@ def parse_report_sections(html):
     past_preamble = False
 
     # Patterns
-    title_pattern = re.compile(r"^TITLE\s+[IVXLC]+\s*$")
+    # Match both "TITLE I" and "TITLE I--DESCRIPTION"
+    title_pattern = re.compile(r"^TITLE\s+[IVXLC]+(?:\s*$|\s*[\-\u2014])")
     toc_line_pattern = re.compile(r".*\.{3,}\s*\d+")
     heading_pattern = re.compile(r"^[A-Z][A-Z\s,\-\.\&\(\)\/\'\:]+$")
     dollar_pattern = re.compile(r"\$[\d,]+")
@@ -446,12 +447,22 @@ def parse_report_sections(html):
             current_content.append("")
             continue
 
-        # Skip TOC lines
+        # Skip TOC lines (lines with ... followed by page numbers)
         if toc_line_pattern.match(stripped) and not past_preamble:
             continue
 
         # Detect start of substantive content
-        if stripped == "OVERVIEW" or title_pattern.match(stripped):
+        if (
+            stripped == "OVERVIEW"
+            or stripped == "SUMMARY"
+            or title_pattern.match(stripped)
+            or (not past_preamble and heading_pattern.match(stripped)
+                and len(stripped) > 10 and "COMMITTEE" not in stripped
+                and "HOUSE" not in stripped and "SENATE" not in stripped
+                and "REPORT" not in stripped and "CONTENTS" not in stripped
+                and "DISSENTING" not in stripped
+                and stripped not in skip_headings)
+        ):
             past_preamble = True
 
         if not past_preamble:
