@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-CONGRESS_API_KEY = "CONGRESS_API_KEY"
+CONGRESS_API_KEY = os.environ.get("CONGRESS_API_KEY", "DEMO_KEY")
 CACHE_DIR = os.path.join(os.path.dirname(__file__), "cache")
 os.makedirs(CACHE_DIR, exist_ok=True)
 
